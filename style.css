@@ -93,3 +93,12 @@ body {
     align-self: center;
   }
   
+  #result-summary {
+    max-height: 70vh; /* or adjust as needed */
+    overflow-y: auto;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1rem;
+    text-align: left;
+    padding: 1rem;
+    width: 100%;
+  }

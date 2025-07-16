@@ -268,19 +268,21 @@ const questions = [
   };
   
   function finishQuiz() {
-    document.getElementById("card").innerHTML = "<h2>Thanks for answering!</h2>";
+    document.getElementById("card").innerHTML = "<h2>Thanks for answering! These were your answers.</h2>";
     document.querySelector(".buttons").style.display = "none";
     confirmBtn.style.display = "none";
     backBtn.style.display = "none";
   
     const summary = document.createElement("div");
+    summary.id = "result-summary";
     summary.innerHTML = answers.map((a, i) => {
       let html = `<p><strong>Q${i + 1}: ${a.question}</strong><br>→ ${a.answer}`;
       if (a.control) html += `<br><em>Control:</em> ${a.control}`;
       html += "</p>";
       return html;
     }).join("");
-    document.getElementById("app").appendChild(summary);
+
+  document.getElementById("app").appendChild(summary);
   }
   
   // Start app
