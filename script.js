@@ -7,11 +7,14 @@ const questions = [
   
   let currentIndex = 0;
   let answers = [];
+  let history = [];
   
   const questionText = document.getElementById("question-text");
   const textInput = document.getElementById("text-input");
   const yesBtn = document.getElementById("yes-btn");
   const noBtn = document.getElementById("no-btn");
+  const backBtn = document.getElementById("back-btn");
+
   
   function showQuestion() {
     const q = questions[currentIndex];
@@ -19,7 +22,7 @@ const questions = [
   
     if (q.type === "text") {
       textInput.style.display = "block";
-      textInput.focus();
+      textInput.value = answers[currentIndex]?.answer || "";
       yesBtn.style.display = "none";
       noBtn.style.display = "none";
     } else {
@@ -27,10 +30,13 @@ const questions = [
       yesBtn.style.display = "inline-block";
       noBtn.style.display = "inline-block";
     }
+  
+    backBtn.style.display = currentIndex > 0 ? "inline-block" : "none";
   }
   
+  
   function recordAnswer(answer) {
-    answers.push({ question: questions[currentIndex].text, answer });
+    answers[currentIndex] = { question: questions[currentIndex].text, answer };
     currentIndex++;
   
     if (currentIndex < questions.length) {
@@ -50,6 +56,12 @@ const questions = [
   
   yesBtn.onclick = () => recordAnswer("Yes");
   noBtn.onclick = () => recordAnswer("No");
+  backBtn.onclick = () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      showQuestion();
+    }
+  };
   
   textInput.addEventListener("keydown", function (e) {
     if (e.key === "Enter") {
