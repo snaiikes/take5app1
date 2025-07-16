@@ -147,7 +147,7 @@ const questions = [
       noBtn.style.display = "none";
       textInput.value = answers[currentIndex]?.control || "";
     }
-    // Regular text question
+
     else if (q.type === "text") {
       questionText.textContent = q.text;
       textInput.style.display = "block";
@@ -155,9 +155,14 @@ const questions = [
       yesBtn.style.display = "none";
       noBtn.style.display = "none";
       textInput.value = answers[currentIndex]?.answer || "";
-    }
-    // Yes/No question
-    else if (q.type === "yesno") {
+    } else if (q.type === "textorno") {
+      questionText.textContent = q.text;
+      textInput.style.display = "block";
+      confirmBtn.style.display = "inline-block";
+      textInput.value = answers[currentIndex]?.answer || "";
+      yesBtn.style.display = "none";
+      noBtn.style.display = "inline-block";
+    } else if (q.type === "yesno") {
       questionText.textContent = q.text;
       textInput.style.display = "none";
       confirmBtn.style.display = "none";
