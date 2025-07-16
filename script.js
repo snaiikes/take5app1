@@ -234,7 +234,14 @@ const questions = [
     }
   
     textInput.value = "";
+    textInput.style.height = "auto";
+
   };
+
+  textInput.addEventListener("input", function () {
+    this.style.height = "auto"; // Reset height
+    this.style.height = (this.scrollHeight) + "px"; // Set new height
+  });
   
   textInput.addEventListener("keydown", function (e) {
     if (e.key === "Enter") {
