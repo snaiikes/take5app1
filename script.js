@@ -1,8 +1,8 @@
 const questions = [
-    { type: "yesno", text: "Do you like pineapple on pizza?" },
-    { type: "text", text: "What’s your favourite movie?" },
-    { type: "yesno", text: "Have you traveled overseas this year?" },
-    { type: "text", text: "What’s one goal you have for this month?" }
+    { type: "text", text: "What's your name?" },
+    { type: "text", text: "What's the date today? (DD/MM/YY)" },
+    { type: "yesno", text: "Can I strain or overexert myself?" },
+    { type: "yesno", text: "Can I fall from a height?" }
   ];
   
   let currentIndex = 0;
