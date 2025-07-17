@@ -1,5 +1,9 @@
 const questions = [
     { type: "text", text: "Name:" },
+    { type: "text", text: "Your email:", 
+        key: "userEmail", remember: true },
+    { type: "text", text: "Your supervisor's email:", 
+        key: "supervisorEmail", remember: true },
     { type: "text", text: "Task:" },
     { type: "text", text: "Location:" },
     { type: "text", text: "Date (DD/MM/YYYY):" },
@@ -15,33 +19,27 @@ const questions = [
     { type: "yesno", 
         text: "Can I fall from a height?",
         controlOn: "yes",
-        controlPrompt: "Describe the control for falling from height:"
-     },
+        controlPrompt: "Describe the control for falling from height:" },
     { type: "yesno",
         text: "Can I be trapped/caught by a plant?",
         controlOn: "yes",
-        controlPrompt: "Describe the control for being trapped/caught by a plant:"
-    },
+        controlPrompt: "Describe the control for being trapped/caught by a plant:" },
     { type: "yesno", 
         text: "Can I contact chemicals or ignition sources?",
         controlOn: "yes",
-        controlPrompt: "Describe the control for contacting chemicals or ignition sources:"
-    },
+        controlPrompt: "Describe the control for contacting chemicals or ignition sources:" },
     { type: "yesno", 
         text: "Can I receive burns (hot/cold)?",
         controlOn: "yes",
-        controlPrompt: "Describe the control for receiving burns:"
-    },
+        controlPrompt: "Describe the control for receiving burns:" },
     { type: "yesno", 
         text: "Is there potential for slip, trip, and fall hazards?",
         controlOn: "yes",
-        controlPrompt: "Describe the control for slip, trip, and fall hazards:"
-    },
+        controlPrompt: "Describe the control for slip, trip, and fall hazards:" },
     { type: "yesno", 
         text: "Is there potential for stored energy needing isolation?",
         controlOn: "yes",
-        controlPrompt: "Describe the control for stored energy needing isolation:"
-     },
+        controlPrompt: "Describe the control for stored energy needing isolation:" },
     { type: "yesno", 
         text: "Is there potential for sharp edges or rotating parts?",
         controlOn: "yes",
@@ -56,11 +54,11 @@ const questions = [
         controlPrompt: "Describe the control for unsafe atmospheric conditions:"},
     { type: "yesno", 
         text: "Am I prepared if the weather changes?",
-        controlOn: "both",
+        controlOn: "no",
         controlPrompt: "How do I plan on preparing if the weather changes?" },
     { type: "yesno", 
         text: "Am I prepared if my work impacts on others around me?",
-        controlOn: "both",
+        controlOn: "no",
         controlPrompt: "How do I plan on preparing if my work impacts others around me?" },
     { type: "yesno", 
         text: "Am I fit for duty?", 
@@ -135,8 +133,13 @@ const questions = [
       finishQuiz();
       return;
     }
-  
+
     const q = questions[currentIndex];
+
+    if (q.remember && q.key) {
+        const saved = localStorage.getItem(q.key);
+        if (saved) textInput.value = saved;
+    }
   
     // Control input step
     if (waitingForControl) {
@@ -146,9 +149,7 @@ const questions = [
       yesBtn.style.display = "none";
       noBtn.style.display = "none";
       textInput.value = answers[currentIndex]?.control || "";
-    }
-
-    else if (q.type === "text") {
+    } else if (q.type === "text") {
       questionText.textContent = q.text;
       textInput.style.display = "block";
       confirmBtn.style.display = "inline-block";
@@ -176,8 +177,8 @@ const questions = [
   function handleControlRequired(response, q) {
     if (
       (q.controlOn === "yes" && response === "Yes") ||
-      (q.controlOn === "no" && response === "No") ||
-      (q.controlOn === "both")
+      (q.controlOn === "no" && response === "No") // ||
+      // (q.controlOn === "both")
     ) {
       return true;
     }
@@ -237,6 +238,10 @@ const questions = [
       currentIndex++;
       showQuestion();
     }
+
+    if (q.remember && q.key) {
+        localStorage.setItem(q.key, val);
+    }
   
     textInput.value = "";
     textInput.style.height = "auto";
@@ -273,7 +278,7 @@ const questions = [
   };
   
   function finishQuiz() {
-    document.getElementById("card").innerHTML = "<h2>Thanks for answering! These were your answers.</h2>";
+    document.getElementById("card").innerHTML = "<h2>These were your answers. A copy has been sent to your email and your supervisor's email. If you don't see it, check your junk inbox.</h2>";
     document.querySelector(".buttons").style.display = "none";
     confirmBtn.style.display = "none";
     backBtn.style.display = "none";
@@ -281,13 +286,38 @@ const questions = [
     const summary = document.createElement("div");
     summary.id = "result-summary";
     summary.innerHTML = answers.map((a, i) => {
-      let html = `<p><strong>Q${i + 1}: ${a.question}</strong><br>→ ${a.answer}`;
+      let html = `<p><strong>Q${i + 1}: ${a.question}</strong><br>${a.answer}`;
       if (a.control) html += `<br><em>Control:</em> ${a.control}`;
       html += "</p>";
       return html;
     }).join("");
 
   document.getElementById("app").appendChild(summary);
+
+    const usersName = answers.find(a => a.question.includes("Name:"))?.answer || "";
+    const todaysTask = answers.find(a => a.question.includes("Task:"))?.answer || "";
+    const todaysDate = answers.find(a => a.question.includes("Date"))?.answer || "";
+    const userEmail = answers.find(a => a.question.includes("Your email"))?.answer || "";
+    const supervisorEmail = answers.find(a => a.question.includes("supervisor"))?.answer || "";
+
+    const checklistText = answers.map((a, i) => {
+        let str = `Q${i + 1}: ${a.question}\n${a.answer}`;
+        if (a.control) str += `\nControl: ${a.control}`;
+        return str;
+      }).join("\n\n");
+      
+      emailjs.send('take5', 'template_maenl8s', {
+        name: usersName,
+        task: todaysTask, 
+        date: todaysDate, 
+        supervisoremail: supervisorEmail,
+        responses: checklistText,
+        youremail: userEmail
+      }).then(function(response) {
+        console.log("Email sent!", response.status, response.text);
+      }, function(err) {
+        console.error("Failed to send email:", err);
+      });
   }
   
   // Start app
