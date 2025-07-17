@@ -56,8 +56,10 @@ const questions = [
       noBtn.style.display = "none";
       const saved = q.remember && q.key ? localStorage.getItem(q.key) : "";
       console.log(`Retrieved from localStorage: key = ${q.key}, value=${saved}`)
+      let inputBox = document.getElementById("text-input");
+
       if (saved !== "" && saved !== null) {
-        textInput.textContent = saved;
+        inputBox.textContent = saved;
       } else {
         textInput.value = answers[currentIndex]?.answer || "";
       }
