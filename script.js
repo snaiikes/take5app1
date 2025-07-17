@@ -1,5 +1,3 @@
-console.clear()
-
 const questions = [
     { type: "text", text: "Name:" },
     { type: "text", text: "Your email:", 
@@ -17,7 +15,105 @@ const questions = [
     { type: "yesno", 
         text: "Can I strain or overexert myself?",
         controlOn: "yes",
-        controlPrompt: "Describe the control for straining or overexerting yourself:"}
+        controlPrompt: "Describe the control for straining or overexerting yourself:"},
+    { type: "yesno", 
+        text: "Can I fall from a height?",
+        controlOn: "yes",
+        controlPrompt: "Describe the control for falling from height:" },
+    { type: "yesno",
+        text: "Can I be trapped/caught by a plant?",
+        controlOn: "yes",
+        controlPrompt: "Describe the control for being trapped/caught by a plant:" },
+    { type: "yesno", 
+        text: "Can I contact chemicals or ignition sources?",
+        controlOn: "yes",
+        controlPrompt: "Describe the control for contacting chemicals or ignition sources:" },
+    { type: "yesno", 
+        text: "Can I receive burns (hot/cold)?",
+        controlOn: "yes",
+        controlPrompt: "Describe the control for receiving burns:" },
+    { type: "yesno", 
+        text: "Is there potential for slip, trip, and fall hazards?",
+        controlOn: "yes",
+        controlPrompt: "Describe the control for slip, trip, and fall hazards:" },
+    { type: "yesno", 
+        text: "Is there potential for stored energy needing isolation?",
+        controlOn: "yes",
+        controlPrompt: "Describe the control for stored energy needing isolation:" },
+    { type: "yesno", 
+        text: "Is there potential for sharp edges or rotating parts?",
+        controlOn: "yes",
+        controlPrompt: "Describe the control for sharp edges or rotating parts:" },
+    { type: "yesno", 
+        text: "Is there potential for work with radiation sources?",
+        controlOn: "yes",
+        controlPrompt: "Describe the control for working with radiation sources:"},
+    { type: "yesno", 
+        text: "Is there potential for unsafe atmospheric conditions?",
+        controlOn: "yes",
+        controlPrompt: "Describe the control for unsafe atmospheric conditions:"},
+    { type: "yesno", 
+        text: "Am I prepared if the weather changes?",
+        controlOn: "no",
+        controlPrompt: "How do I plan on preparing if the weather changes?" },
+    { type: "yesno", 
+        text: "Am I prepared if my work impacts on others around me?",
+        controlOn: "no",
+        controlPrompt: "How do I plan on preparing if my work impacts others around me?" },
+    { type: "yesno", 
+        text: "Am I fit for duty?", 
+        controlOn: "no",
+        controlPrompt: "You should go home." },
+    { type: "yesno", 
+        text: "Am I fatigued and in need of a break?",
+        controlOn: "yes",
+        controlPrompt: "You should take a break." },
+    { type: "yesno", 
+        text: "Am I trained and authorised?", 
+        controlOn: "no",
+        controlPrompt: "Please ensure you are trained and authorised." },
+    { type: "yesno", 
+        text: "Am I following FPR Energy procedures for this task?",
+        controlOn: "no",
+        controlPrompt: "Please follow FPR Energy procedures for this task." },
+    { type: "yesno", 
+        text: "Am I aware of site emergency procedures?",
+        controlOn: "no",
+        controlPrompt: "Please make yourself aware of site emergency procedures." },
+    { type: "yesno", 
+        text: "Am I working above or below someone?",
+        controlOn: "yes",
+        controlPrompt: "Describe the control for working above or below someone:" },
+    { type: "yesno", 
+        text: "Do I have the correct PPE?",
+        controlOn: "no",
+        controlPrompt: "Please ensure you have the correct PPE." },
+    { type: "yesno", 
+        text: "Do I need a Risk Management Plan?",
+        controlOn: "yes",
+        controlPrompt: "Briefly describe the Risk Management Plan:" },
+    { type: "yesno", 
+        text: "Do I need any work permits?",
+        controlOn: "yes",
+        controlPrompt: "Please ensure you have obtained the relevant work permits." },
+    { type: "yesno", 
+        text: "Do I need to restrict access?",
+        controlOn: "yes",
+        controlPrompt: "Describe the control for restricting access:" },
+    { type: "yesno", 
+        text: "Do I have safe access & egress?",
+        controlOn: "no",
+        controlPrompt: "Please ensure you have safe access and egress before continuing." },
+    { type: "yesno", 
+        text: "Do I have the required MSDS?",
+        controlOn: "no",
+        controlPrompt: "Please obtain the required MSDS." },
+    { type: "yesno", 
+        text: "Do I need assistance?",
+        controlOn: "yes",
+        controlPrompt: "What type of assistance do I need and can I readily obtain it?" },
+
+    { type: "textorno", text: "Any other concerns?" }
   ];
 
   let currentIndex = 0;
@@ -39,6 +135,11 @@ const questions = [
     }
 
     const q = questions[currentIndex];
+
+    if (q.remember && q.key) {
+        const saved = localStorage.getItem(q.key);
+        if (saved) textInput.value = saved;
+    }
   
     // Control input step
     if (waitingForControl) {
@@ -54,15 +155,7 @@ const questions = [
       confirmBtn.style.display = "inline-block";
       yesBtn.style.display = "none";
       noBtn.style.display = "none";
-      const saved = q.remember && q.key ? localStorage.getItem(q.key) : "";
-      console.log(`Retrieved from localStorage: key = ${q.key}, value=${saved}`)
-      let inputBox = document.getElementById("text-input");
-
-      if (saved !== "" && saved !== null) {
-        inputBox.innerHTML = saved;
-      } else {
-        textInput.value = answers[currentIndex]?.answer || "";
-      }
+      textInput.value = answers[currentIndex]?.answer || "";
     } else if (q.type === "textorno") {
       questionText.textContent = q.text;
       textInput.style.display = "block";
@@ -148,7 +241,6 @@ const questions = [
 
     if (q.remember && q.key) {
         localStorage.setItem(q.key, val);
-        console.log(`Saved to localStorage: key = ${q.key}, value = ${val}`)
     }
   
     textInput.value = "";
@@ -202,31 +294,32 @@ const questions = [
 
   document.getElementById("app").appendChild(summary);
 
-    // const usersName = answers.find(a => a.question.includes("Name:"))?.answer || "";
-    // const todaysTask = answers.find(a => a.question.includes("Task:"))?.answer || "";
-    // const todaysDate = answers.find(a => a.question.includes("Date"))?.answer || "";
-    // const userEmail = answers.find(a => a.question.includes("Your email"))?.answer || "";
-    // const supervisorEmail = answers.find(a => a.question.includes("supervisor"))?.answer || "";
+    const usersName = answers.find(a => a.question.includes("Name:"))?.answer || "";
+    const todaysTask = answers.find(a => a.question.includes("Task:"))?.answer || "";
+    const todaysDate = answers.find(a => a.question.includes("Date"))?.answer || "";
+    const userEmail = answers.find(a => a.question.includes("Your email"))?.answer || "";
+    const supervisorEmail = answers.find(a => a.question.includes("supervisor"))?.answer || "";
 
-    // const checklistText = answers.map((a, i) => {
-    //     let str = `Q${i + 1}: ${a.question}\n${a.answer}`;
-    //     if (a.control) str += `\nControl: ${a.control}`;
-    //     return str;
-    //   }).join("\n\n");
+    const checklistText = answers.map((a, i) => {
+        let str = `Q${i + 1}: ${a.question}\n${a.answer}`;
+        if (a.control) str += `\nControl: ${a.control}`;
+        return str;
+      }).join("\n\n");
       
-    //   emailjs.send('take5', 'template_maenl8s', {
-    //     name: usersName,
-    //     task: todaysTask, 
-    //     date: todaysDate, 
-    //     supervisoremail: supervisorEmail,
-    //     responses: checklistText,
-    //     youremail: userEmail
-    //   }).then(function(response) {
-    //     console.log("Email sent!", response.status, response.text);
-    //   }, function(err) {
-    //     console.error("Failed to send email:", err);
-    //   });
+      emailjs.send('take5', 'template_maenl8s', {
+        name: usersName,
+        task: todaysTask, 
+        date: todaysDate, 
+        supervisoremail: supervisorEmail,
+        responses: checklistText,
+        youremail: userEmail
+      }).then(function(response) {
+        console.log("Email sent!", response.status, response.text);
+      }, function(err) {
+        console.error("Failed to send email:", err);
+      });
   }
   
+  // Start app
   showQuestion();
   
