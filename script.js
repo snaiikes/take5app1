@@ -456,7 +456,7 @@ const questions = [
     const usersName = answers.find(a => a.question.includes("Name:"))?.answer || "";
     const todaysTask = answers.find(a => a.question.includes("Task:"))?.answer || "";
     const todaysDate = answers.find(a => a.question.includes("Date"))?.answer || "";
-    const userEmail = answers.find(a => a.question.includes("Your email"))?.answer || "";
+    const userEmail = answers.find(a => a.question.includes("your email"))?.answer || "";
     const supervisorEmail = answers.find(a => a.question.includes("supervisor"))?.answer || "";
 
     const checklistText = answers.map((a, i) => {
@@ -476,6 +476,7 @@ const questions = [
         console.log("Email sent!", response.status, response.text);
       }, function(err) {
         console.error("Failed to send email:", err);
+        console.log(`${userEmail}, ${supervisorEmail}`);
       });
   }
   
