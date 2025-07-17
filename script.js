@@ -1,3 +1,5 @@
+console.clear()
+
 const questions = [
     { type: "text", text: "Name:" },
     { type: "text", text: "Your email:", 
@@ -52,7 +54,9 @@ const questions = [
       confirmBtn.style.display = "inline-block";
       yesBtn.style.display = "none";
       noBtn.style.display = "none";
-      textInput.value = answers[currentIndex]?.answer || (q.remember && q.key ? localStorage.getItem(q.key) || "" : "");
+      const saved = q.remember && q.key ? localStorage.getItem(q.key) : null;
+      console.log(`Retrieved from localStorage: key = ${q.key}, value=${saved}`)
+      textInput.value = answers[currentIndex]?.answer || saved || "";
     } else if (q.type === "textorno") {
       questionText.textContent = q.text;
       textInput.style.display = "block";
@@ -138,6 +142,7 @@ const questions = [
 
     if (q.remember && q.key) {
         localStorage.setItem(q.key, val);
+        console.log(`Saved to localStorage: key = ${q.key}, value = ${val}`)
     }
   
     textInput.value = "";
