@@ -459,6 +459,9 @@ const questions = [
     const userEmail = answers.find(a => a.question.includes("your email"))?.answer || "";
     const supervisorEmail = answers.find(a => a.question.includes("supervisor"))?.answer || "";
 
+    console.log("Sending to:", userEmail);
+    console.log(`${userEmail}, ${supervisorEmail}`);
+
     const checklistText = answers.map((a, i) => {
         let str = `Q${i + 1}: ${a.question}\n${a.answer}`;
         if (a.control) str += `\nControl: ${a.control}`;
@@ -476,7 +479,6 @@ const questions = [
         console.log("Email sent!", response.status, response.text);
       }, function(err) {
         console.error("Failed to send email:", err);
-        console.log(`${userEmail}, ${supervisorEmail}`);
       });
   }
   
