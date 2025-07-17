@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-  <script>emailjs.init("4BjgTTumGjkrr7HyO");</script>
+  <!-- <script>emailjs.init("4BjgTTumGjkrr7HyO");</script> -->
   <meta charset="UTF-8" />
   <link rel="icon" href="logo_transparent.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -11,6 +11,18 @@
 </head>
 <body>
   <div id="app">
+
+
+
+    <!-- Stored Info Prompt -->
+    <div id="stored-info" style="display: none;">
+        <p id="info-text"></p>
+        <button id="change-yes">Yes</button>
+        <button id="change-no">No</button>
+    </div>
+
+    
+
     <div id="card">
       <p id="question-text">Loading...</p>
       <textarea id="text-input" placeholder="Type your answer..."></textarea>
