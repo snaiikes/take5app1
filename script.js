@@ -59,7 +59,7 @@ const questions = [
       let inputBox = document.getElementById("text-input");
 
       if (saved !== "" && saved !== null) {
-        inputBox.textContent = saved;
+        inputBox.innerHTML = saved;
       } else {
         textInput.value = answers[currentIndex]?.answer || "";
       }
