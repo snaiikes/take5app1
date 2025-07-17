@@ -54,9 +54,13 @@ const questions = [
       confirmBtn.style.display = "inline-block";
       yesBtn.style.display = "none";
       noBtn.style.display = "none";
-      const saved = q.remember && q.key ? localStorage.getItem(q.key) : null;
+      const saved = q.remember && q.key ? localStorage.getItem(q.key) : "";
       console.log(`Retrieved from localStorage: key = ${q.key}, value=${saved}`)
-      textInput.value = answers[currentIndex]?.answer || saved || "";
+      if (saved !== "" && saved !== null) {
+        textInput.value = saved;
+      } else {
+        textInput.value = answers[currentIndex]?.answer || "";
+      }
     } else if (q.type === "textorno") {
       questionText.textContent = q.text;
       textInput.style.display = "block";
@@ -196,32 +200,31 @@ const questions = [
 
   document.getElementById("app").appendChild(summary);
 
-    const usersName = answers.find(a => a.question.includes("Name:"))?.answer || "";
-    const todaysTask = answers.find(a => a.question.includes("Task:"))?.answer || "";
-    const todaysDate = answers.find(a => a.question.includes("Date"))?.answer || "";
-    const userEmail = answers.find(a => a.question.includes("Your email"))?.answer || "";
-    const supervisorEmail = answers.find(a => a.question.includes("supervisor"))?.answer || "";
+    // const usersName = answers.find(a => a.question.includes("Name:"))?.answer || "";
+    // const todaysTask = answers.find(a => a.question.includes("Task:"))?.answer || "";
+    // const todaysDate = answers.find(a => a.question.includes("Date"))?.answer || "";
+    // const userEmail = answers.find(a => a.question.includes("Your email"))?.answer || "";
+    // const supervisorEmail = answers.find(a => a.question.includes("supervisor"))?.answer || "";
 
-    const checklistText = answers.map((a, i) => {
-        let str = `Q${i + 1}: ${a.question}\n${a.answer}`;
-        if (a.control) str += `\nControl: ${a.control}`;
-        return str;
-      }).join("\n\n");
+    // const checklistText = answers.map((a, i) => {
+    //     let str = `Q${i + 1}: ${a.question}\n${a.answer}`;
+    //     if (a.control) str += `\nControl: ${a.control}`;
+    //     return str;
+    //   }).join("\n\n");
       
-      emailjs.send('take5', 'template_maenl8s', {
-        name: usersName,
-        task: todaysTask, 
-        date: todaysDate, 
-        supervisoremail: supervisorEmail,
-        responses: checklistText,
-        youremail: userEmail
-      }).then(function(response) {
-        console.log("Email sent!", response.status, response.text);
-      }, function(err) {
-        console.error("Failed to send email:", err);
-      });
+    //   emailjs.send('take5', 'template_maenl8s', {
+    //     name: usersName,
+    //     task: todaysTask, 
+    //     date: todaysDate, 
+    //     supervisoremail: supervisorEmail,
+    //     responses: checklistText,
+    //     youremail: userEmail
+    //   }).then(function(response) {
+    //     console.log("Email sent!", response.status, response.text);
+    //   }, function(err) {
+    //     console.error("Failed to send email:", err);
+    //   });
   }
   
-  // Start app
   showQuestion();
   
