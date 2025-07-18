@@ -103,4 +103,22 @@ body {
     padding: 1rem;
     width: 100%;
   }
+
+  .page-title {
+    color: white;
+    position: fixed;
+    top: 10px;
+    left: 0;
+    width: 100%;
+    /*background-color: #fff; /* Optional: background behind title */
+    padding: 16px;
+    font-size: 24px;
+    text-align: center;
+    z-index: 1000; /* Make sure it's on top of other content */
+    /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);*/
+  }
+
+  .main-content {
+    margin-top: 80px; /* Adjust depending on your title height */
+  }
   

@@ -138,6 +138,8 @@ const questions = [
       return;
     }
 
+    // edge case if only name is filled but email, supervisor email not filled
+
     const key = storedKeysToCheck[storageCheckIndex]; 
     const saved = localStorage.getItem(key);
 
