@@ -1,121 +1,140 @@
 const questions = [
-    { type: "text", text: "Name:",
-        key: "name", remember: true },
-    { type: "text", text: "Enter your email. A copy of your responses will be sent to this inbox.", 
-        key: "userEmail", remember: true },
-    { type: "text", text: "Enter your supervisor's email. A copy of your responses will be sent to this inbox.", 
-        key: "supervisorEmail", remember: true },
-    { type: "text", text: "Task:" },
-    { type: "text", text: "Location:" },
-    { type: "text", text: "Date (DD/MM/YYYY):" },
-  
-    //{ type: "text", text: "Risk Identified and Controls" },
-  
-    //{ type: "text", text: "Answers to Take 5 questions" },
-  
-    { type: "yesno", 
-        text: "Can I strain or overexert myself?",
-        controlOn: "yes",
-        controlPrompt: "Describe the control for straining or overexerting yourself:"},
-    { type: "yesno", 
-        text: "Can I fall from a height?",
-        controlOn: "yes",
-        controlPrompt: "Describe the control for falling from height:" },
-    { type: "yesno",
-        text: "Can I be trapped/caught by a plant?",
-        controlOn: "yes",
-        controlPrompt: "Describe the control for being trapped/caught by a plant:" },
-    { type: "yesno", 
-        text: "Can I contact chemicals or ignition sources?",
-        controlOn: "yes",
-        controlPrompt: "Describe the control for contacting chemicals or ignition sources:" },
-    { type: "yesno", 
-        text: "Can I receive burns (hot/cold)?",
-        controlOn: "yes",
-        controlPrompt: "Describe the control for receiving burns:" },
-    { type: "yesno", 
-        text: "Is there potential for slip, trip, and fall hazards?",
-        controlOn: "yes",
-        controlPrompt: "Describe the control for slip, trip, and fall hazards:" },
-    { type: "yesno", 
-        text: "Is there potential for stored energy needing isolation?",
-        controlOn: "yes",
-        controlPrompt: "Describe the control for stored energy needing isolation:" },
-    { type: "yesno", 
-        text: "Is there potential for sharp edges or rotating parts?",
-        controlOn: "yes",
-        controlPrompt: "Describe the control for sharp edges or rotating parts:" },
-    { type: "yesno", 
-        text: "Is there potential for work with radiation sources?",
-        controlOn: "yes",
-        controlPrompt: "Describe the control for working with radiation sources:"},
-    { type: "yesno", 
-        text: "Is there potential for unsafe atmospheric conditions?",
-        controlOn: "yes",
-        controlPrompt: "Describe the control for unsafe atmospheric conditions:"},
-    { type: "yesno", 
-        text: "Am I prepared if the weather changes?",
-        controlOn: "no",
-        controlPrompt: "How do I plan on preparing if the weather changes?" },
-    { type: "yesno", 
-        text: "Am I prepared if my work impacts on others around me?",
-        controlOn: "no",
-        controlPrompt: "How do I plan on preparing if my work impacts others around me?" },
-    { type: "yesno", 
-        text: "Am I fit for duty?", 
-        controlOn: "no",
-        controlPrompt: "You should go home." },
-    { type: "yesno", 
-        text: "Am I fatigued and in need of a break?",
-        controlOn: "yes",
-        controlPrompt: "You should take a break." },
-    { type: "yesno", 
-        text: "Am I trained and authorised?", 
-        controlOn: "no",
-        controlPrompt: "Please ensure you are trained and authorised." },
-    { type: "yesno", 
-        text: "Am I following FPR Energy procedures for this task?",
-        controlOn: "no",
-        controlPrompt: "Please follow FPR Energy procedures for this task." },
-    { type: "yesno", 
-        text: "Am I aware of site emergency procedures?",
-        controlOn: "no",
-        controlPrompt: "Please make yourself aware of site emergency procedures." },
-    { type: "yesno", 
-        text: "Am I working above or below someone?",
-        controlOn: "yes",
-        controlPrompt: "Describe the control for working above or below someone:" },
-    { type: "yesno", 
-        text: "Do I have the correct PPE?",
-        controlOn: "no",
-        controlPrompt: "Please ensure you have the correct PPE." },
-    { type: "yesno", 
-        text: "Do I need a Risk Management Plan?",
-        controlOn: "yes",
-        controlPrompt: "Briefly describe the Risk Management Plan:" },
-    { type: "yesno", 
-        text: "Do I need any work permits?",
-        controlOn: "yes",
-        controlPrompt: "Please ensure you have obtained the relevant work permits." },
-    { type: "yesno", 
-        text: "Do I need to restrict access?",
-        controlOn: "yes",
-        controlPrompt: "Describe the control for restricting access:" },
-    { type: "yesno", 
-        text: "Do I have safe access & egress?",
-        controlOn: "no",
-        controlPrompt: "Please ensure you have safe access and egress before continuing." },
-    { type: "yesno", 
-        text: "Do I have the required MSDS?",
-        controlOn: "no",
-        controlPrompt: "Please obtain the required MSDS." },
-    { type: "yesno", 
-        text: "Do I need assistance?",
-        controlOn: "yes",
-        controlPrompt: "What type of assistance do I need and can I readily obtain it?" },
-
-    { type: "textorno", text: "Any other concerns?" }
-  ];
+  { type: "text", text: "Name:",
+      key: "name", remember: true },
+  { type: "text", text: "Enter your email. A copy of your responses will be sent to this inbox.", 
+      key: "userEmail", remember: true },
+  { type: "text", text: "Enter your supervisor's email. A copy of your responses will be sent to this inbox.", 
+      key: "supervisorEmail", remember: true },
+  { type: "text", text: "Task:" },
+  { type: "text", text: "Location:" },
+  { type: "text", text: "Date (DD/MM/YYYY):" },  
+  { type: "yesno", 
+      text: "Can I strain or overexert myself?",
+      controlOn: "yes",
+      controlPrompt: "Describe the control for straining or overexerting yourself:",
+      controlPromptNeeded: false },
+  { type: "yesno", 
+      text: "Can I fall from a height?",
+      controlOn: "yes",
+      controlPrompt: "Describe the control for falling from height:",
+      controlPromptNeeded: false },
+  { type: "yesno",
+      text: "Can I be trapped/caught by a plant?",
+      controlOn: "yes",
+      controlPrompt: "Describe the control for being trapped/caught by a plant:",
+      controlPromptNeeded: false },
+  { type: "yesno", 
+      text: "Can I contact chemicals or ignition sources?",
+      controlOn: "yes",
+      controlPrompt: "Describe the control for contacting chemicals or ignition sources:",
+      controlPromptNeeded: false },
+  { type: "yesno", 
+      text: "Can I receive burns (hot/cold)?",
+      controlOn: "yes",
+      controlPrompt: "Describe the control for receiving burns:",
+      controlPromptNeeded: false },
+  { type: "yesno", 
+      text: "Is there potential for slip, trip, and fall hazards?",
+      controlOn: "yes",
+      controlPrompt: "Describe the control for slip, trip, and fall hazards:",
+      controlPromptNeeded: false },
+  { type: "yesno", 
+      text: "Is there potential for stored energy needing isolation?",
+      controlOn: "yes",
+      controlPrompt: "Describe the control for stored energy needing isolation:",
+      controlPromptNeeded: false },
+  { type: "yesno", 
+      text: "Is there potential for sharp edges or rotating parts?",
+      controlOn: "yes",
+      controlPrompt: "Describe the control for sharp edges or rotating parts:",
+      controlPromptNeeded: false },
+  { type: "yesno", 
+      text: "Is there potential for work with radiation sources?",
+      controlOn: "yes",
+      controlPrompt: "Describe the control for working with radiation sources:",
+      controlPromptNeeded: false },
+  { type: "yesno", 
+      text: "Is there potential for unsafe atmospheric conditions?",
+      controlOn: "yes",
+      controlPrompt: "Describe the control for unsafe atmospheric conditions:",
+      controlPromptNeeded: false },
+  { type: "yesno", 
+      text: "Am I prepared if the weather changes?",
+      controlOn: "no",
+      controlPrompt: "How do I plan on preparing if the weather changes?",
+      controlPromptNeeded: false },
+  { type: "yesno", 
+      text: "Am I prepared if my work impacts on others around me?",
+      controlOn: "no",
+      controlPrompt: "How do I plan on preparing if my work impacts others around me?",
+      controlPromptNeeded: false },
+  { type: "yesno", 
+      text: "Am I fit for duty?", 
+      controlOn: "no",
+      controlPrompt: "You should go home.",
+      controlPromptNeeded: false },
+  { type: "yesno", 
+      text: "Am I fatigued and in need of a break?",
+      controlOn: "yes",
+      controlPrompt: "You should take a break.",
+      controlPromptNeeded: false },
+  { type: "yesno", 
+      text: "Am I trained and authorised?", 
+      controlOn: "no",
+      controlPrompt: "Please ensure you are trained and authorised.",
+      controlPromptNeeded: false },
+  { type: "yesno", 
+      text: "Am I following FPR Energy procedures for this task?",
+      controlOn: "no",
+      controlPrompt: "Please follow FPR Energy procedures for this task.",
+      controlPromptNeeded: false },
+  { type: "yesno", 
+      text: "Am I aware of site emergency procedures?",
+      controlOn: "no",
+      controlPrompt: "Please make yourself aware of site emergency procedures.",
+      controlPromptNeeded: false },
+  { type: "yesno", 
+      text: "Am I working above or below someone?",
+      controlOn: "yes",
+      controlPrompt: "Describe the control for working above or below someone:",
+      controlPromptNeeded: false },
+  { type: "yesno", 
+      text: "Do I have the correct PPE?",
+      controlOn: "no",
+      controlPrompt: "Please ensure you have the correct PPE.",
+      controlPromptNeeded: false },
+  { type: "yesno", 
+      text: "Do I need a Risk Management Plan?",
+      controlOn: "yes",
+      controlPrompt: "Briefly describe the Risk Management Plan:",
+      controlPromptNeeded: false },
+  { type: "yesno", 
+      text: "Do I need any work permits?",
+      controlOn: "yes",
+      controlPrompt: "Please ensure you have obtained the relevant work permits.",
+      controlPromptNeeded: false },
+  { type: "yesno", 
+      text: "Do I need to restrict access?",
+      controlOn: "yes",
+      controlPrompt: "Describe the control for restricting access:",
+      controlPromptNeeded: false },
+  { type: "yesno", 
+      text: "Do I have safe access & egress?",
+      controlOn: "no",
+      controlPrompt: "Please ensure you have safe access and egress before continuing.",
+      controlPromptNeeded: false },
+  { type: "yesno", 
+      text: "Do I have the required MSDS?",
+      controlOn: "no",
+      controlPrompt: "Please obtain the required MSDS.",
+      controlPromptNeeded: false },
+  { type: "yesno", 
+      text: "Do I need assistance?",
+      controlOn: "yes",
+      controlPrompt: "What type of assistance do I need and can I readily obtain it?",
+      controlPromptNeeded: false },
+  { type: "textorno", text: "Any other concerns?" }
+];
 
   let currentIndex = 0;
   let answers = [];
@@ -124,11 +143,17 @@ const questions = [
   let editingStorageItem = false;
   let editingKey = null;
   let controlIndex = 0;
-
-  const storedKeysToCheck = ["name", "userEmail", "supervisorEmail"];
-  const controlsNeeded = []; // stores {id, text}
   let storageCheckIndex = 0;
   let inStorageCheck = true; // initially true to start checking stored values
+  let controlsNeeded = []; // stores {id, text}
+
+  const storedKeysToCheck = ["name", "userEmail", "supervisorEmail"];
+  const questionText = document.getElementById("question-text");
+  const textInput = document.getElementById("text-input");
+  const confirmBtn = document.getElementById("confirm-btn");
+  const yesBtn = document.getElementById("yes-btn");
+  const noBtn = document.getElementById("no-btn");
+  const backBtn = document.getElementById("back-btn");
 
   function showStorageCheck() {
     if (storageCheckIndex >= storedKeysToCheck.length) {
@@ -147,7 +172,7 @@ const questions = [
 
     if (saved) {
         // if there is a saved item then ask
-      questionText.textContent = `Your last entered ${key === "userEmail" ? "email" : key === "supervisorEmail" ? "supervisor's email" : "name"} was "${saved}". Do you want to change it?`;
+      questionText.innerHTML = `Your last entered ${key === "userEmail" ? "email" : key === "supervisorEmail" ? "supervisor's email" : "name"} was <b>${saved}</b>. Do you want to change it?`;
       textInput.style.display = "none";
       confirmBtn.style.display = "none";
       yesBtn.style.display = "inline-block";
@@ -184,14 +209,6 @@ const questions = [
 
     textInput.value = answers[questionIndex]?.control || "";
   }
-
-  
-  const questionText = document.getElementById("question-text");
-  const textInput = document.getElementById("text-input");
-  const confirmBtn = document.getElementById("confirm-btn");
-  const yesBtn = document.getElementById("yes-btn");
-  const noBtn = document.getElementById("no-btn");
-  const backBtn = document.getElementById("back-btn");
   
   function showQuestion() {
 
@@ -305,25 +322,33 @@ const questions = [
     // textInput.value = "";
 
     } else {
-        // normal quiz questions
+      answers[currentIndex] = {
+        question: q.text,
+        answer: "Yes"
+      };
 
-    //currentAnswer = "Yes";
-        answers[currentIndex] = {
-            question: q.text,
-            answer: "Yes"
-        };
-  
-        if (q.type === "yesno" && handleControlRequired("Yes", q)) {
+      if (q.type === "yesno" && handleControlRequired("Yes", q)) {
+        console.log(controlsNeeded);
+        console.log(`current index of this q that needs control ${currentIndex}`);
+        // check if duplicate exists
+        if (!controlsNeeded.some(item => item.questionIndex === currentIndex)) {
+          
+          // if not already in the array then add it
+          console.log("added");
           controlsNeeded.push({
             questionIndex: currentIndex,
             prompt: q.controlPrompt
           });
-            //waitingForControl = true;
-            //showQuestion();
-        }
-            currentIndex++;
-            showQuestion();
-        
+          q.controlPromptNeeded = true;
+        } // else if in the array do nothing
+      } else { // if handlecontrolrequired is FALSE then check if it's in controlsNeeded
+        if (controlsNeeded.some(item => item.questionIndex === currentIndex)) { // check if in controlsNeeded
+          console.log("Removed");
+          controlsNeeded = controlsNeeded.filter(item => item.questionIndex != currentIndex); // delete it from controlsNeeded
+        } // if it's not then do nothing
+      }
+      currentIndex++;
+      showQuestion();
     }
   };
   //console.log("NO button clicked");
@@ -353,27 +378,31 @@ const questions = [
         return;
     // NORMAL NO BUTTON!
     } else {
-        console.log("Normal NO clicked at quiz index:", currentIndex);
+      console.log("Normal NO clicked at quiz index:", currentIndex);
 
-        // record answer as no
-        answers[currentIndex] = {
-        question: q.text,
-        answer: "No"
-        };
+      // record answer as no
+      answers[currentIndex] = {
+      question: q.text,
+      answer: "No"
+      };
 
-        // if control is required then record the control required question and its index, then go next
-        if (q.type === "yesno" && handleControlRequired("No", q)) {
+      // if control is required then record the control required question and its index, then go next
+      if (q.type === "yesno" && handleControlRequired("No", q)) {
+          // check if duplicate exists
+        if (!controlsNeeded.some(item => item.questionIndex === currentIndex)) {
           controlsNeeded.push({
             questionIndex: currentIndex,
             prompt: q.controlPrompt
           });
-
-            // waitingForControl = true;
-            // showQuestion();
-        }
-            currentIndex++;
-            showQuestion();
-        
+          q.controlPromptNeeded = true;
+        } // else if in the array do nothing
+      } else { // if handlecontrolrequired is FALSE then check if it's in controlsNeeded
+        if (controlsNeeded.some(item => item.questionIndex === currentIndex)) { // check if in controlsNeeded
+          controlsNeeded = controlsNeeded.filter(item => item.questionIndex != currentIndex); // delete it from controlsNeeded
+        } // if it's not then do nothing
+      }
+        currentIndex++;
+        showQuestion();
     }
   };
   
@@ -440,53 +469,55 @@ const questions = [
   });
   
   backBtn.onclick = () => {
+    const q = questions[currentIndex];
     if (inStorageCheck) {
-
-        if (editingStorageItem) {
-        // if editing/confirming and going back then nothing in particular, that is handled by "Yes" button on click? no
-            editingStorageItem = false;
-            editingKey = null;
-            showStorageCheck();
-            return;
-
-        } else {
-        // if wanting to go back to the previous page
-            currentIndex--;
-            storageCheckIndex--;
-            showStorageCheck();
-            return;
-        }
-    }
-    if (waitingForControl) {
-      if (controlIndex > 0) {
-        controlIndex--;
-        showNextControl();
+      if (editingStorageItem) {
+      // if editing/confirming and going back then nothing in particular, that is handled by "Yes" button on click? no
+        editingStorageItem = false;
+        editingKey = null;
+        showStorageCheck();
+        return;
+      } else {
+      // if wanting to go back to the previous page
+        currentIndex--;
+        storageCheckIndex--;
+        showStorageCheck();
+        return;
       }
+    }
+
+    console.log(`storagecheck: ${inStorageCheck} and waitingforcontrol: ${waitingForControl}`)
+    if (waitingForControl && controlIndex > 0) {
+      // if we are at the control stage
+      controlIndex--;
+      showNextControl();
       return;
+      //console.log("waaat");
       // waitingForControl = false;
       // showQuestion();
     } else if (currentIndex > 0) {
-        console.log(`curreny index ${currentIndex}`);
-    // if last was a storage but you've gone to tasks and now want to change something
-        
-        if (currentIndex == 3) { // i.e. is TASK question
-            console.log("this happened");
-            inStorageCheck = true;
-            currentIndex--;
-            storageCheckIndex--;
-            showStorageCheck();
-            return;
-        }
+      console.log(`curreny index ${currentIndex}`);
+      // if last was a storage but you've gone to tasks and now want to change something
+      if (currentIndex == 3) { // i.e. is TASK question
+        console.log("this happened");
+        inStorageCheck = true;
         currentIndex--;
-      const q = questions[currentIndex];
-      const lastAns = answers[currentIndex];
+        storageCheckIndex--;
+        showStorageCheck();
+        return;
+      }
+      currentIndex--;
+
+      //controlsNeeded.pop();
+      q.controlPromptNeeded = false;
+      //const lastAns = answers[currentIndex];
   
       // If control is expected based on last answer, go to control step 
       // i think this was from ages ago delete this...?
-      if (q.type === "yesno" && handleControlRequired(lastAns.answer, q)) {
-        waitingForControl = true;
-      }
-  
+
+      // if (q.type === "yesno" && handleControlRequired(lastAns.answer, q)) {
+      //   waitingForControl = true;
+      // }
       showQuestion();
     }
   };
@@ -538,7 +569,6 @@ const questions = [
         console.error("Failed to send email:", err);
       });
   }
-  
-  //showQuestion();
-  showStorageCheck();
+
+showStorageCheck();
   
