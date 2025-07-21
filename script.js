@@ -123,8 +123,10 @@ const questions = [
   let currentAnswer = null;
   let editingStorageItem = false;
   let editingKey = null;
+  let controlIndex = 0;
 
   const storedKeysToCheck = ["name", "userEmail", "supervisorEmail"];
+  const controlsNeeded = []; // stores {id, text}
   let storageCheckIndex = 0;
   let inStorageCheck = true; // initially true to start checking stored values
 
@@ -151,19 +153,36 @@ const questions = [
       yesBtn.style.display = "inline-block";
       noBtn.style.display = "inline-block";
       if (currentIndex == 0) {
-        backBtn.style.display = "none"; // hide back button here if you want
+        backBtn.style.display = "none"; // nowhere to go on first card
       } else {
         backBtn.style.display = "inline-block";
       }
     } else {
         console.log("THIS PART MEANS WE did the weird?")
 
-        // if there is not a saved item then skip all of this storage checking bs
+        // if there is not a saved item then skip all of this storage checking
         inStorageCheck = false;
         currentIndex = 0; // start asking from regular name since nothing checked yet
         showQuestion();
         return;
     }
+  }
+
+  function showNextControl() {
+    if (controlIndex >= controlsNeeded.length) { // done showing controls
+      finishQuiz();
+      return;
+    }
+
+    const { questionIndex, prompt } = controlsNeeded[controlIndex];
+    questionText.textContent = prompt;
+    textInput.style.display = "block";
+    confirmBtn.style.display = "inline-block";
+    yesBtn.style.display = "none";
+    noBtn.style.display = "none";
+    backBtn.style.display = controlIndex > 0 ? "inline-block" : "none"; // if it's the first control question then don't offer a back button
+
+    textInput.value = answers[questionIndex]?.control || "";
   }
 
   
@@ -175,11 +194,21 @@ const questions = [
   const backBtn = document.getElementById("back-btn");
   
   function showQuestion() {
+
+    // if yes/no qs are finished
     if (currentIndex >= questions.length) {
-      finishQuiz();
-      return;
+      if (controlsNeeded.length > 0) { // if any questions need control then show controls
+        waitingForControl = true;
+        currentIndex = 0;
+        showNextControl();
+        return;
+      } else { // no questions need controls. finish the quiz
+        finishQuiz();
+        return;
+      }
     }
 
+    // normal showing the next question
     const q = questions[currentIndex];
 
     if (q.remember && q.key) {
@@ -188,14 +217,17 @@ const questions = [
     }
   
     // Control input step
-    if (waitingForControl) {
-      questionText.textContent = q.controlPrompt || "Please enter the control:";
-      textInput.style.display = "block";
-      confirmBtn.style.display = "inline-block";
-      yesBtn.style.display = "none";
-      noBtn.style.display = "none";
-      textInput.value = answers[currentIndex]?.control || "";
-    } else if (q.type === "text") {
+    // DON'T NEED THIS ANYMORE
+    // if (waitingForControl) {
+    //   questionText.textContent = q.controlPrompt || "Please enter the control:";
+    //   textInput.style.display = "block";
+    //   confirmBtn.style.display = "inline-block";
+    //   yesBtn.style.display = "none";
+    //   noBtn.style.display = "none";
+    //   textInput.value = answers[currentIndex]?.control || "";
+    // } else 
+    
+    if (q.type === "text") {
       questionText.textContent = q.text;
       textInput.style.display = "block";
       confirmBtn.style.display = "inline-block";
@@ -282,12 +314,16 @@ const questions = [
         };
   
         if (q.type === "yesno" && handleControlRequired("Yes", q)) {
-            waitingForControl = true;
-            showQuestion();
-        } else {
+          controlsNeeded.push({
+            questionIndex: currentIndex,
+            prompt: q.controlPrompt
+          });
+            //waitingForControl = true;
+            //showQuestion();
+        }
             currentIndex++;
             showQuestion();
-        }
+        
     }
   };
   //console.log("NO button clicked");
@@ -314,24 +350,30 @@ const questions = [
         currentIndex++;
         storageCheckIndex++;
         showStorageCheck();
-        return; // IDK IF NEED THIS
-
+        return;
+    // NORMAL NO BUTTON!
     } else {
         console.log("Normal NO clicked at quiz index:", currentIndex);
 
-        //currentAnswer = "No";
+        // record answer as no
         answers[currentIndex] = {
         question: q.text,
         answer: "No"
         };
 
+        // if control is required then record the control required question and its index, then go next
         if (q.type === "yesno" && handleControlRequired("No", q)) {
-            waitingForControl = true;
-            showQuestion();
-        } else {
+          controlsNeeded.push({
+            questionIndex: currentIndex,
+            prompt: q.controlPrompt
+          });
+
+            // waitingForControl = true;
+            // showQuestion();
+        }
             currentIndex++;
             showQuestion();
-        }
+        
     }
   };
   
@@ -359,10 +401,15 @@ const questions = [
     }
   
     if (waitingForControl) {
-      answers[currentIndex].control = val;
-      waitingForControl = false;
-      currentIndex++;
-      showQuestion();
+      const qIndex = controlsNeeded[controlIndex].questionIndex;
+      answers[qIndex].control = val;
+      controlIndex++;
+      showNextControl();
+      return; 
+      // answers[currentIndex].control = val;
+      // waitingForControl = false;
+      // currentIndex++;
+      // showQuestion();
     } else {
       answers[currentIndex] = {
         question: q.text,
@@ -411,8 +458,13 @@ const questions = [
         }
     }
     if (waitingForControl) {
-      waitingForControl = false;
-      showQuestion();
+      if (controlIndex > 0) {
+        controlIndex--;
+        showNextControl();
+      }
+      return;
+      // waitingForControl = false;
+      // showQuestion();
     } else if (currentIndex > 0) {
         console.log(`curreny index ${currentIndex}`);
     // if last was a storage but you've gone to tasks and now want to change something
@@ -429,7 +481,8 @@ const questions = [
       const q = questions[currentIndex];
       const lastAns = answers[currentIndex];
   
-      // If control is expected based on last answer, go to control step
+      // If control is expected based on last answer, go to control step 
+      // i think this was from ages ago delete this...?
       if (q.type === "yesno" && handleControlRequired(lastAns.answer, q)) {
         waitingForControl = true;
       }
@@ -439,7 +492,9 @@ const questions = [
   };
   
   function finishQuiz() {
-    document.getElementById("card").innerHTML = "<h2>Thanks for answering! A copy of your responses has been sent to you and your supervisor. If you don't see it, check your junk inbox.</h2>";
+    document.getElementById("card").innerHTML = `
+      <h4>Thanks for answering! A copy of your responses has been sent to you and your supervisor.
+      If you don't see it, check your junk inbox and add fprtake5@gmail.com and fprtake5.2@gmail.com to your safe senders list.</h4>`;
     document.querySelector(".buttons").style.display = "none";
     confirmBtn.style.display = "none";
     backBtn.style.display = "none";
@@ -474,7 +529,7 @@ const questions = [
         name: usersName,
         task: todaysTask, 
         date: todaysDate, 
-        supervisoremail: supervisorEmail,
+        supervisoremail: `safety@fprenergy.com, ${supervisorEmail}`, // safety@fprenergy.com, supervisorEmail SAFETY MUST COME FIRST hehe or the email thinks safety is supervisor
         responses: checklistText,
         youremail: userEmail
       }).then(function(response) {
@@ -484,7 +539,6 @@ const questions = [
       });
   }
   
-  // Start app
   //showQuestion();
   showStorageCheck();
   
